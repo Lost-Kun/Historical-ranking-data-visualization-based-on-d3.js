@@ -187,7 +187,6 @@ function draw(data) {
     function drawEvents() {
         if (events[0] && events[0].date === currentTime) {
             clearEvents();
-            const itemList = [];
             eventItem = events[0];
             var myItem = eventItem;
             events.splice(0, 1);
@@ -195,7 +194,7 @@ function draw(data) {
             var labelX = config.eventsLabel_x;
             var labelY = config.eventsLabel_y - config.events_content_space;
             myItem.content && myItem.content.reverse().forEach((item) => {
-                itemList.push(eventsG.insert("text")
+                eventsG.insert("text")
                     .data(item)
                     .attr("class", "event-content")
                     .attr("x", labelX)
@@ -204,11 +203,11 @@ function draw(data) {
                     .attr("fill-opacity", 0)
                     .transition()
                     .duration(config.events_transition_duration)
-                    .attr("fill-opacity", 1));
+                    .attr("fill-opacity", 1);
                 labelY -= config.events_content_space;
             })
             labelY -= (config.events_title_space - config.events_content_space);
-            itemList.push(eventsG.insert("text")
+            eventsG.insert("text")
                 .data(myItem.title)
                 .attr("class", "event-title")
                 .attr("x", labelX)
@@ -217,12 +216,12 @@ function draw(data) {
                 .attr("fill-opacity", 0)
                 .transition()
                 .duration(config.events_transition_duration)
-                .attr("fill-opacity", 1));
+                .attr("fill-opacity", 1);
             setTimeout(() => {
                 if (myItem.date === eventItem.date) {
                     clearEvents(config.events_transition_duration);
                 }
-            }, config.events_duration);
+            }, myItem.duration || config.events_duration);
         }
     }
 
