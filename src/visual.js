@@ -29,6 +29,8 @@ function draw(data) {
         }
     });
 
+    var events = eventList.sort((x, y) => new Date(x) - new Date(y));
+
 
     var auto_sort = config.auto_sort;
     if (auto_sort) {
@@ -102,10 +104,13 @@ function draw(data) {
     var enter_from_0 = config.enter_from_0;
     interval_time /= 3;
 
-    var currentdate = time[0].toString();
+    var currentTime = time[0];
+    var currentdate = config.date_length === 'all' ? time[0] : time[0].substr(0, config.date_length);
     var currentData = [];
     var lastname;
     const svg = d3.select('svg');
+
+    var eventItem = {}
 
 
 
@@ -122,6 +127,8 @@ function draw(data) {
     const xAxisG = g.append('g')
         .attr('transform', `translate(0, ${innerHeight})`);
     const yAxisG = g.append('g');
+    const eventsG = g.append('g')
+        .attr('text-anchor', 'end');
 
     xAxisG.append('text')
         .attr('class', 'axis-label')
@@ -156,12 +163,70 @@ function draw(data) {
         .attr("class", "dateLabel")
         .attr("x", dateLabel_x)
         .attr("y", dateLabel_y)
+        .attr('text-anchor', 'end')
         .text(currentdate);
 
     var topLabel = g.insert("text")
         .attr("class", "topLabel")
         .attr("x", item_x)
         .attr("y", text_y)
+    
+    function clearEvents(duration = 0) {
+        eventsG.selectAll('.event-title')
+            .transition()
+            .duration(duration)
+            .attr("fill-opacity", 0)
+            .remove();
+        eventsG.selectAll('.event-content')
+            .transition()
+            .duration(duration)
+            .attr("fill-opacity", 0)
+            .remove();
+    }
+
+    function drawEvents() {
+        if (events[0] && events[0].date === currentTime) {
+            clearEvents();
+            const itemList = [];
+            eventItem = events[0];
+            var myItem = eventItem;
+            events.splice(0, 1);
+
+            var labelX = config.eventsLabel_x;
+            var labelY = config.eventsLabel_y - config.events_content_space;
+            myItem.content && myItem.content.reverse().forEach((item) => {
+                itemList.push(eventsG.insert("text")
+                    .data(item)
+                    .attr("class", "event-content")
+                    .attr("x", labelX)
+                    .attr("y", labelY)
+                    .text(item)
+                    .attr("fill-opacity", 0)
+                    .transition()
+                    .duration(config.events_transition_duration)
+                    .attr("fill-opacity", 1));
+                labelY -= config.events_content_space;
+            })
+            labelY -= (config.events_title_space - config.events_content_space);
+            itemList.push(eventsG.insert("text")
+                .data(myItem.title)
+                .attr("class", "event-title")
+                .attr("x", labelX)
+                .attr("y", labelY)
+                .text(myItem.title)
+                .attr("fill-opacity", 0)
+                .transition()
+                .duration(config.events_transition_duration)
+                .attr("fill-opacity", 1));
+            setTimeout(() => {
+                if (myItem.date === eventItem.date) {
+                    clearEvents(config.events_transition_duration);
+                }
+            }, config.events_duration);
+        }
+    }
+
+    drawEvents();
 
     function getCurrentData(date) {
         currentData = [];
@@ -504,8 +569,10 @@ function draw(data) {
 
     var i = 1;
     var inter = setInterval(function next() {
-        currentdate = time[i];
+        currentTime = time[i];
+        currentdate = config.date_length === 'all' ? time[i] : time[i].substr(0, config.date_length);
         getCurrentData(time[i]);
+        drawEvents();
         i++;
         if (i >= time.length) {
             window.clearInterval(inter);

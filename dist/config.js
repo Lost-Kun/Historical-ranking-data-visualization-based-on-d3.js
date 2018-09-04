@@ -53,7 +53,7 @@
     use_counter : false,
     // 每个时间节点对于计数器的步长。
     // 比如时间节点日期的间隔可能为1周（七天），那么step的值就应该为7。
-    step : 7,
+    step : 1,
 
     
     // 格式化数值
@@ -61,13 +61,13 @@
     format : '.0f',
 
     // 图表左右上下间距。
-    left_margin : 260,
+    left_margin : 150,
     right_margin : 150,
     top_margin : 200,
     bottom_margin : 0,
 
     // 时间标签坐标。
-    dateLabel_x : 1070,
+    dateLabel_x : 1600,
     dateLabel_y : 750,
     
     // 允许大于平均值的条消失时上浮。
@@ -80,6 +80,18 @@
     big_value: false,
     
     // 如果要使用半对数坐标，则开启此项
-    use_semilogarithmic_coordinate: false
+    use_semilogarithmic_coordinate: false,
 
+    // date展示位数
+    date_length: 'all',
+
+    // events文字底部坐标
+    eventsLabel_x: 1600,
+    eventsLabel_y: 600,
+
+    events_content_space: 60,
+    events_title_space: 90,
+
+    events_duration: 8000,
+    events_transition_duration: 2000,
 }
