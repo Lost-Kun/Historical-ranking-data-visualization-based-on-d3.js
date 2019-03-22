@@ -437,7 +437,7 @@ function draw(data) {
             .delay(500 * interval_time).duration(2490 * interval_time).text(
                 function (d) {
                     if (use_type_info) {
-                        return d.type + "-" + d.name;
+                        return (d.type ? d.type + "-" : "") + d.name;
                     }
                     return d.name;
                 }).attr("x", d => xScale(xValue(d)) - 10).attr(
@@ -490,7 +490,7 @@ function draw(data) {
             .text(
                 function (d) {
                     if (use_type_info) {
-                        return d.type + "-" + d.name;
+                        return (d.type ? d.type + "-" : "") + d.name;
                     }
                     return d.name;
                 })
