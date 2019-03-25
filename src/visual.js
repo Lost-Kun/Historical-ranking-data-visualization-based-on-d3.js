@@ -14,7 +14,9 @@ $('#inputfile').change(function () {
     r.onload = function () {
         //读取完成后，数据保存在对象的result属性中
         var data = d3.csvParse(this.result);
-        draw(data);
+        setTimeout(() => {
+            draw(data);
+        }, 3000);
     }
 });
 
@@ -71,6 +73,7 @@ function draw(data) {
         }
     }
     var showMessage = config.showMessage;
+    var showTopLabel = config.showTopLabel;
     var allow_up = config.allow_up;
     var interval_time = config.interval_time;
     var text_y = config.text_y;
@@ -317,16 +320,18 @@ function draw(data) {
             });
 
         if (showMessage) {
-            // 榜首文字
-            topLabel.data(currentData).text(function (d) {
-                if (lastname == d.name) {
-                    counter.value = counter.value + step;
-                } else {
-                    counter.value = 1;
-                }
-                lastname = d.name
-                return d.name;
-            });
+            if (showTopLabel) {
+                // 榜首文字
+                topLabel.data(currentData).text(function (d) {
+                    if (lastname == d.name) {
+                        counter.value = counter.value + step;
+                    } else {
+                        counter.value = 1;
+                    }
+                    lastname = d.name
+                    return d.name;
+                });
+            }
             if (use_counter == true) {
                 // 榜首持续时间更新
                 days.data(currentData).transition().duration(3000 * interval_time).ease(d3.easeLinear).tween(

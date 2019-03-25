@@ -3,19 +3,20 @@
     // 数据源的编码方式。
     // 默认为GBK,按需可修改为UTF-8等。
     // 如果输入的数据是用Excel编写的csv文件，那么大概率应该使用GBK。
-    encoding:"GBK",
+    encoding:"UTF-8",
 
     // 每个时间节点最多显示的条目数。
     max_number : 16,
 
     // 控制是否显示顶部附加信息文字。
     showMessage : true,
+    showTopLabel : false,
 
     // !!请确保打开此项时，使用的是标准日期格式！!
     // 时间自动排序。
     // 如果关闭，排序顺序为csv表格的时间字段自上而下的出现顺序。
     // 如果你的日期格式为标准的日期格式，则可以无视数据排序，达到自动按照日期顺序排序的效果。
-    auto_sort : false,
+    auto_sort : true,
 
     // 倒序，使得最短的条位于最上方
     reverse: false,
@@ -25,13 +26,13 @@
     use_custom_color : false,
 
     // 附加信息内容。
-    itemLabel : "左边信息",
-    typeLabel : "右边信息",
+    itemLabel : "APP行业-移动视频：日活跃用户数（DAU）排行榜",
+    typeLabel : "",
     // 榜首项目信息的水平位置 。
     item_x : 400,
 
     // 时间点间隔时间。
-    interval_time : 2,
+    interval_time : 1,
 
     // 上方文字水平高度。
     text_y : -50,
@@ -53,7 +54,7 @@
     use_counter : false,
     // 每个时间节点对于计数器的步长。
     // 比如时间节点日期的间隔可能为1周（七天），那么step的值就应该为7。
-    step : 1,
+    step : 7,
 
     
     // 格式化数值
@@ -61,7 +62,7 @@
     format : '.0f',
 
     // 图表左右上下间距。
-    left_margin : 150,
+    left_margin : 200,
     right_margin : 150,
     top_margin : 200,
     bottom_margin : 0,
@@ -83,7 +84,7 @@
     use_semilogarithmic_coordinate: false,
 
     // date展示位数
-    date_length: 'all',
+    date_length: 7,
 
     // events文字底部坐标
     eventsLabel_x: 1600,
